@@ -64,17 +64,21 @@ public class WeatherContract {
         public static final String COLUMN_WIND_SPEED = "wind";
         public static final String COLUMN_DEGREES = "degrees";
 
-        public static Uri buildWeather(long id) {
+        public static Uri buildWeatherUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
         public static Uri buildWeatherLocation(String locationSetting) {
-            return null;
+            return CONTENT_URI.buildUpon().appendPath(locationSetting).build();
         }
 
         public static Uri buildWeatherLocationWithStartDate(String locationSetting, long startDate) {
             long normalizedDate = normalizeDate(startDate);
             return CONTENT_URI.buildUpon().appendPath(locationSetting).appendQueryParameter(COLUMN_DATE, Long.toString(normalizedDate)).build();
+        }
+
+        public static Uri buildWeatherLocationWithDate(String locationSetting, long date) {
+            return CONTENT_URI.buildUpon().appendPath(locationSetting).appendPath(Long.toString(normalizeDate(date))).build();
         }
 
         public static String getLocationSettingFromUri(Uri uri) {
